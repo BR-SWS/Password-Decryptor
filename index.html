@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Internal SQL Password Decryptor</title>
+<meta charset="utf-8">
+<style>
+body { font-family: Arial; padding: 30px; max-width: 600px; margin: auto; }
+input, button { padding: 10px; font-size: 14px; width: 100%; margin-top: 10px; }
+button { cursor: pointer; }
+.banner { color: red; font-weight: bold; margin-bottom: 15px; }
+</style>
+</head>
+
+<body>
+<div class="banner">⚠ INTERNAL USE ONLY – DO NOT SHARE WITH CUSTOMERS</div>
+
+<input id="enc" placeholder="Encrypted password">
+<button onclick="decrypt()">Decrypt</button>
+
+<p><b>Decrypted Password:</b></p>
+<p id="out" style="font-family: monospace;"></p>
+
+<script>
+function upcDecrypt(str) {
+    if (!str || str.length % 8 !== 0) return "";
+
+    let arr = [];
+    for (let i = 0; i < str.length; i++) {
+        let b = str.charCodeAt(i) & 0xFF;
+        b -= 48;
+        if (b > 9) b -= 7;
+        if (b >= 24) b--;
+        if (b >= 18) b--;
+        arr.push(b);
+    }
+
+    let bits = [1,2,4,8,16,32,64,128];
+    let out = [];
+
+    for (let i = 0; i < arr.length; i += 8) {
+        let block = [0,0,0,0,0];
+        for (let j = 0; j < 8; j++) {
+            for (let k = 0; k < 5; k++) {
+                if (arr[i+j] & bits[k]) {
+                    block[k] |= bits[j];
+                }
+            }
+        }
+        out.push(...block);
+    }
+
+    return out.filter(b => b !== 0)
+              .map(b => String.fromCharCode(b))
+              .join('');
+}
+
+function decrypt() {
+    document.getElementById("out").innerText =
+        upcDecrypt(document.getElementById("enc").value) || "[Decryption failed]";
+}
+</script>
+</body>
+</html>
