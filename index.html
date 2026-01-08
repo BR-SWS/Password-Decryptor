@@ -21,7 +21,7 @@ body {
 }
 
 .header img {
-    height: 80px;  /* bigger logo */
+    height: 80px;
     margin-right: 25px;
 }
 
@@ -40,7 +40,7 @@ body {
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
-    align-items: center;  /* center all elements */
+    align-items: center;
 }
 
 .banner {
@@ -50,8 +50,8 @@ body {
     text-align: center;
 }
 
-input, button, .result {
-    width: 400px;       /* same width */
+input, button, .result, #copyBtn {
+    width: 400px;
     box-sizing: border-box;
 }
 
@@ -64,7 +64,7 @@ input {
 button {
     padding: 12px;
     font-size: 15px;
-    background: #28a745;  /* green button */
+    background: #28a745;
     color: white;
     border: none;
     cursor: pointer;
@@ -72,7 +72,7 @@ button {
 }
 
 button:hover {
-    background: #218838;  /* darker green on hover */
+    background: #218838;
 }
 
 .result {
@@ -81,11 +81,22 @@ button:hover {
     font-size: 26px;
     font-weight: bold;
     color: #003a8f;
-    word-break: break-all;
+    word-break: normal;      /* prevent breaking into multiple lines */
+    white-space: nowrap;     /* force single line */
+    overflow-x: auto;        /* allow horizontal scroll if too long */
     background: #e6f2ff;
     padding: 15px;
     border-radius: 4px;
     text-align: center;
+}
+
+#copyBtn {
+    background: #007bff;
+    margin-top: 10px;
+}
+
+#copyBtn:hover {
+    background: #0056b3;
 }
 </style>
 </head>
@@ -101,7 +112,7 @@ button:hover {
 <!-- MAIN CONTENT -->
 <div class="container">
     <div class="banner">
-        ⚠ INTERNAL USE ONLY – DO NOT SHARE WITH CUSTOMERS
+        ⚠ FOR INTERNAL USE ONLY – DO NOT SHARE WITH CUSTOMERS
     </div>
 
     <input id="enc" placeholder="Enter encrypted password">
@@ -109,6 +120,7 @@ button:hover {
     <button onclick="decrypt()">Decrypt</button>
 
     <div class="result" id="out">Decrypted password will appear here</div>
+    <button id="copyBtn" onclick="copyResult()">Copy</button>
 </div>
 
 <script>
@@ -149,6 +161,18 @@ function decrypt() {
     const input = document.getElementById("enc").value;
     const result = upcDecrypt(input) || "[Decryption failed]";
     document.getElementById("out").innerText = result;
+}
+
+// Copy decrypted password to clipboard
+function copyResult() {
+    const resultText = document.getElementById("out").innerText;
+    if (resultText && resultText !== "[Decryption failed]" && resultText !== "Decrypted password will appear here") {
+        navigator.clipboard.writeText(resultText)
+            .then(() => alert("Password copied to clipboard!"))
+            .catch(err => alert("Failed to copy: " + err));
+    } else {
+        alert("Nothing to copy!");
+    }
 }
 </script>
 
