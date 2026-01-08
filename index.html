@@ -1,24 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Internal SQL Password Decryptor</title>
-<meta charset="utf-8">
+<meta charset="UTF-8">
+<title>SQL Password Decrypter</title>
+
 <style>
-body { font-family: Arial; padding: 30px; max-width: 600px; margin: auto; }
-input, button { padding: 10px; font-size: 14px; width: 100%; margin-top: 10px; }
-button { cursor: pointer; }
-.banner { color: red; font-weight: bold; margin-bottom: 15px; }
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 15px 25px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.header img {
+    height: 45px;
+    margin-right: 20px;
+}
+
+.header h1 {
+    font-size: 22px;
+    margin: 0;
+    color: #003a8f;
+}
+
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.banner {
+    color: #b00020;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    background: #003a8f;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #002b6a;
+}
+
+.result {
+    margin-top: 15px;
+    font-family: monospace;
+    word-break: break-all;
+}
 </style>
 </head>
 
 <body>
-<div class="banner">⚠ INTERNAL USE ONLY – DO NOT SHARE WITH CUSTOMERS</div>
 
-<input id="enc" placeholder="Encrypted password">
-<button onclick="decrypt()">Decrypt</button>
+<!-- HEADER -->
+<div class="header">
+    <img src="Bio-Rad_Logo.png" alt="Bio-Rad Logo">
+    <h1>SQL Password Decryption</h1>
+</div>
 
-<p><b>Decrypted Password:</b></p>
-<p id="out" style="font-family: monospace;"></p>
+<!-- MAIN CONTENT -->
+<div class="container">
+    <div class="banner">
+        ⚠ INTERNAL USE ONLY – DO NOT SHARE WITH CUSTOMERS
+    </div>
+
+    <input id="enc" placeholder="Enter encrypted password Here">
+
+    <button onclick="decrypt()">Decrypt</button>
+
+    <div class="result">
+        <strong>Decrypted Password:</strong>
+        <div id="out"></div>
+    </div>
+</div>
 
 <script>
 function upcDecrypt(str) {
@@ -59,5 +138,7 @@ function decrypt() {
         upcDecrypt(document.getElementById("enc").value) || "[Decryption failed]";
 }
 </script>
+
 </body>
 </html>
+
