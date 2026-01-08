@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SQL Password Decrypter</title>
+<title>SQL Password Decryption</title>
 
 <style>
 body {
@@ -21,7 +21,7 @@ body {
 }
 
 .header img {
-    height: 100px;
+    height: 80px;  /* bigger logo */
     margin-right: 25px;
 }
 
@@ -38,39 +38,54 @@ body {
     padding: 25px;
     border-radius: 6px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* center all elements */
 }
 
 .banner {
     color: #b00020;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+input, button, .result {
+    width: 400px;       /* same width */
+    box-sizing: border-box;
 }
 
 input {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    margin-bottom: 10px;
+    padding: 12px;
+    font-size: 15px;
+    margin-bottom: 20px;
 }
 
 button {
-    width: 100%;
-    padding: 10px;
+    padding: 12px;
     font-size: 15px;
-    background: #003a8f;
+    background: #28a745;  /* green button */
     color: white;
     border: none;
     cursor: pointer;
+    margin-bottom: 25px;
 }
 
 button:hover {
-    background: #002b6a;
+    background: #218838;  /* darker green on hover */
 }
 
 .result {
-    font-family: "Segoe UI", Arial, sans-serif;
+    margin-top: 10px;
+    font-family: Consolas, "Courier New", monospace;
     font-size: 26px;
-    font-weight: 600;
+    font-weight: bold;
+    color: #003a8f;
+    word-break: break-all;
+    background: #e6f2ff;
+    padding: 15px;
+    border-radius: 4px;
+    text-align: center;
 }
 </style>
 </head>
@@ -89,14 +104,11 @@ button:hover {
         ⚠ INTERNAL USE ONLY – DO NOT SHARE WITH CUSTOMERS
     </div>
 
-    <input id="enc" placeholder="Enter encrypted password Here">
+    <input id="enc" placeholder="Enter encrypted password">
 
     <button onclick="decrypt()">Decrypt</button>
 
-    <div class="result">
-        <strong>Decrypted Password:</strong>
-        <div id="out"></div>
-    </div>
+    <div class="result" id="out">Decrypted password will appear here</div>
 </div>
 
 <script>
@@ -134,11 +146,11 @@ function upcDecrypt(str) {
 }
 
 function decrypt() {
-    document.getElementById("out").innerText =
-        upcDecrypt(document.getElementById("enc").value) || "[Decryption failed]";
+    const input = document.getElementById("enc").value;
+    const result = upcDecrypt(input) || "[Decryption failed]";
+    document.getElementById("out").innerText = result;
 }
 </script>
 
 </body>
 </html>
-
