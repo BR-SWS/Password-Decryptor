@@ -21,7 +21,7 @@ body {
 }
 
 .header img {
-    height: 80px;
+    height: 80px;  /* big logo */
     margin-right: 25px;
 }
 
@@ -40,7 +40,7 @@ body {
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center;  /* center all elements */
 }
 
 .banner {
@@ -51,7 +51,7 @@ body {
 }
 
 input, button, .result, #copyBtn {
-    width: 400px;
+    width: 400px;       /* same width */
     box-sizing: border-box;
 }
 
@@ -64,7 +64,7 @@ input {
 button {
     padding: 12px;
     font-size: 15px;
-    background: #28a745;
+    background: #28a745;  /* green */
     color: white;
     border: none;
     cursor: pointer;
@@ -81,13 +81,12 @@ button:hover {
     font-size: 26px;
     font-weight: bold;
     color: #003a8f;
-    word-break: normal;      /* prevent breaking into multiple lines */
-    white-space: nowrap;     /* force single line */
-    overflow-x: auto;        /* allow horizontal scroll if too long */
+    word-break: break-word;       /* wrap long text */
+    white-space: normal;          /* allow wrapping */
     background: #e6f2ff;
     padding: 15px;
     border-radius: 4px;
-    text-align: center;
+    text-align: center;           /* center text */
 }
 
 #copyBtn {
@@ -119,7 +118,7 @@ button:hover {
 
     <button onclick="decrypt()">Decrypt</button>
 
-    <div class="result" id="out">Decrypted password will appear here</div>
+    <div class="result" id="out">Decrypted Password will appear here</div>
     <button id="copyBtn" onclick="copyResult()">Copy</button>
 </div>
 
@@ -160,14 +159,14 @@ function upcDecrypt(str) {
 function decrypt() {
     const input = document.getElementById("enc").value;
     const result = upcDecrypt(input) || "[Decryption failed]";
-    document.getElementById("out").innerText = result;
+    document.getElementById("out").innerText = "Decrypted Password: " + result;
 }
 
 // Copy decrypted password to clipboard
 function copyResult() {
     const resultText = document.getElementById("out").innerText;
-    if (resultText && resultText !== "[Decryption failed]" && resultText !== "Decrypted password will appear here") {
-        navigator.clipboard.writeText(resultText)
+    if (resultText && !resultText.includes("[Decryption failed]") && !resultText.includes("will appear here")) {
+        navigator.clipboard.writeText(resultText.replace("Decrypted Password: ", ""))
             .then(() => alert("Password copied to clipboard!"))
             .catch(err => alert("Failed to copy: " + err));
     } else {
